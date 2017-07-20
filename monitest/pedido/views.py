@@ -43,11 +43,20 @@ def procesar_pedido(request):
 
             # El formulario de pedido de prestamos el usuario debe ingresar dni, nombre y apellido, genero, email y monto solicitado.
             # faltarían datos de autenticacion para uso de la API
+            # vendrian de file config, settings o de donde se tenga dispuesto
+            api_user = "API_USER"
+            api_pass = "API_PASS"
+
+            # SUPONIENDO QUE LA AP EXIGA ALGUN TOKEN GENERADO CON MD5 U OTRO ETC
+            token = "TOKEN"
 
             data = {
                 "document_number": form.cleaned_data.get("dni"),
                 "amount": form.cleaned_data.get("amount"),
-                "email": form.cleaned_data.get("email")
+                "email": form.cleaned_data.get("email"),
+                "user": api_user,
+                "password": api_pass,
+                "token": token
             }
 
             response = requests.post(api_url, data = data)
