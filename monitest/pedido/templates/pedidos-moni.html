@@ -1,0 +1,148 @@
+{% load static %}
+{% load widget_tweaks %}
+{% load bootstrap %}
+{% load i18n %}
+{% load tz %}
+<html>
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+</head>
+
+<body>
+    <section class="col-md-12 col-sm-12 col-print-12">
+        <div class="widget">
+            <div class="widget-content">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h3>Bienvenidos a Moni, no necesitas registrarte para pedir un prestamo</h3>
+                        <h5></h5>
+                    </div>
+                </div>
+                {% if form.errors %}
+                    <div class="row">
+                        <div class="alert alert-danger col-md-6">
+                            {% for field, errors in form.errors.items %}
+                                {% for error in errors %}
+                                    <li>{{field}} - {{error}}</li>
+                                {% endfor %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endif %}
+
+                {% if success %}
+                    <div class="row">
+                        <div class="row col-md-6">
+                            <div class="alert alert-success fade in">
+                                <button class="close" data-dismiss="alert">×</button>
+                                <i class="icon ion-checkmark-circled"></i>
+                                <strong>Éxito!</strong> {{message}}
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+
+                {% if error_message %}
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="alert alert-danger fade in">
+                                <button class="close" data-dismiss="alert">×</button>
+                                <i class="icon ion-checkmark-circled"></i>
+                                <strong>Error!</strong> {{error_message}}
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+
+                <form id="form-pedido" class="form-horizontal label-left" role="form" action="{% url 'home_pedido'%}" method="post" enctype="multipart/form-data">
+                    
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="col-md-2 col-sm-2 control-label">DNI: </label>
+                                <div class="col-md-3 col-sm-3">
+                                    {% render_field form.dni class+="form-control" %}
+                                    {% if form.dni.errors %}<div class="alert alert-danger">{{ form.dni.errors }}</div>{% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="col-md-2 col-sm-2 control-label">Nombre: </label>
+                                <div class="col-md-6 col-sm-6">
+                                    {% render_field form.nombre class+="form-control" %}
+                                    {% if form.nombre.errors %}<div class="alert alert-danger">{{ form.nombre.errors }}</div>{% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="col-md-2 col-sm-2 control-label">Apellido: </label>
+                                <div class="col-md-6 col-sm-6">
+                                    {% render_field form.apellido class+="form-control" %}
+                                    {% if form.apellido.errors %}<div class="alert alert-danger">{{ form.apellido.errors }}</div>{% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="col-md-2 col-sm-2 control-label">Genero: </label>
+                                <div class="col-md-6 col-sm-6">
+                                    {% render_field form.gender class+="form-control" %}
+                                    {% if form.gender.errors %}<div class="alert alert-danger">{{ form.gender.errors }}</div>{% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="col-md-2 col-sm-2 control-label">Email: </label>
+                                <div class="col-md-6 col-sm-6">
+                                    {% render_field form.email class+="form-control" %}
+                                    {% if form.email.errors %}<div class="alert alert-danger">{{ form.email.errors }}</div>{% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="col-md-2 col-sm-2 control-label">Monto el prestamo: </label>
+                                <div class="col-md-6 col-sm-6">
+                                    {% render_field form.amount class+="form-control" %}
+                                    {% if form.amount.errors %}<div class="alert alert-danger">{{ form.amount.errors }}</div>{% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-3 col-sm-3">
+                            <a href="{% url 'home_pedido' %}" class="btn btn-danger">Cancelar</a>
+                            <input class="btn btn-success" type="submit" value="Aceptar" />
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+{% block js_footer %}
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+{% endblock %}
+</body>
+</html>
